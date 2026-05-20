@@ -11,7 +11,7 @@ public class HelloController {
         private int score = 0;
 
         Stick(Label label) {
-            this.label = label;
+            this.label = label;//
         }
 
         void add(int n) {
