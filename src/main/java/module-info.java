@@ -9,6 +9,6 @@ module com.example.samplejavafxproject {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
 
-    opens com.example.samplejavafxproject to javafx.fxml;
+    opens com.example.samplejavafxproject to javafx.fxml, javafx.graphics;
     exports com.example.samplejavafxproject;
 }

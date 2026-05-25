@@ -1,32 +1,118 @@
 package com.example.samplejavafxproject;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+
+import java.io.InputStream;
 
 public class HelloController {
+    @FXML private VBox screen;
 
-    @FXML
-    private Button b1;
-    @FXML
-    private Button b2;
+    @FXML private Pane pane1;
+    @FXML private Pane pane2;
+    @FXML private Pane pane3;
+    @FXML private Pane pane4;
 
-    @FXML
-    private Player score1;
-    @FXML
-    private Player score2;
+    @FXML private Pane bPane;
+    private Rectangle blocker;
 
-    @FXML
-    public void initialize() {
-    }
+    private Player p1;
+    private Player p2;
+    private Player p3;
+    private Player p4;
 
-    @FXML
-    protected void b1Click() {
-        score1.add(1);
-    }
+    private boolean turn = false;
 
-    @FXML
-    protected void b2Click() {
-        score2.add(1);
+    @FXML public void initialize() {
+        Image img = new Image(getClass().getResourceAsStream("/chopstick.png"));
+
+        p1 = new Player(pane1, img, false);
+        p2 = new Player(pane2, img, false);
+        p3 = new Player(pane3, img, true);
+        p4 = new Player(pane4, img, true);
+
+        Timeline timeline = new Timeline();
+
+        KeyFrame keyframe = new KeyFrame(Duration.millis(1000.0/60.0), event -> {
+            if (p1.getScore() == 5 || p2.getScore() == 5 || p3.getScore() == 5 || p4.getScore() == 5) {
+                if (blocker == null) {
+                    blocker = new Rectangle();
+                    blocker.widthProperty().bind(bPane.widthProperty());
+                    blocker.heightProperty().bind(bPane.heightProperty());
+                    blocker.setFill(Color.TRANSPARENT);
+                    bPane.getChildren().add(blocker);
+                    bPane.setMouseTransparent(false);
+                }
+            }
+
+            p1.updateBorder();
+            p2.updateBorder();
+            p3.updateBorder();
+            p4.updateBorder();
+
+            if (p1.getSel()) {
+                p2.disable();
+            } else if (p2.getSel()) {
+                p1.disable();
+            }
+            if (p3.getSel()) {
+                p4.disable();
+            } else if (p4.getSel()) {
+                p3.disable();
+            }
+
+            if ((p1.getSel() || p2.getSel()) && (p3.getSel() || p4.getSel())) {
+                if (turn) {
+                    if (p1.getSel()) {
+                        if (p3.getSel()) {
+                            p1.add(p3.getScore());
+                        } else {
+                            p1.add(p4.getScore());
+                        }
+                    } else {
+                        if (p3.getSel()) {
+                            p2.add(p3.getScore());
+                        } else {
+                            p2.add(p4.getScore());
+                        }
+                    }
+                } else {
+                    if (p3.getSel()) {
+                        if (p1.getSel()) {
+                            p3.add(p1.getScore());
+                        } else {
+                            p3.add(p2.getScore());
+                        }
+                    } else {
+                        if (p1.getSel()) {
+                            p4.add(p1.getScore());
+                        } else {
+                            p4.add(p2.getScore());
+                        }
+                    }
+                }
+                p1.clearSel();
+                p2.clearSel();
+                p3.clearSel();
+                p4.clearSel();
+                turn = !turn;
+            }
+        });
+
+        timeline.getKeyFrames().add(keyframe);
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 }
