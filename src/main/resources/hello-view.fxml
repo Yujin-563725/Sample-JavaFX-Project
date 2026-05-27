@@ -21,6 +21,18 @@
 <StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.samplejavafxproject.HelloController">
     <VBox alignment="CENTER" fx:id="screen">
         <HBox alignment="CENTER">
+            <VBox alignment="CENTER" prefWidth="400">
+                <Label fx:id="timer1" text="15.0" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <Button text="Click" fx:id="b1"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <VBox alignment="CENTER" prefWidth="400">
+                <Label fx:id="timer2" text="15.0" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <Button text="Click" fx:id="b2"/>
+            </VBox>
+        </HBox>
+        <Region minHeight="100"/>
+        <HBox alignment="CENTER">
             <VBox alignment="CENTER_LEFT">
                 <Pane fx:id="pane1" prefWidth="400" prefHeight="300"/>
                 <Pane fx:id="pane2" prefWidth="400" prefHeight="300"/>
@@ -29,17 +41,6 @@
             <VBox alignment="CENTER_RIGHT">
                 <Pane fx:id="pane3" prefWidth="400" prefHeight="300"/>
                 <Pane fx:id="pane4" prefWidth="400" prefHeight="300"/>
-            </VBox>
-        </HBox>
-        <HBox alignment="CENTER">
-            <VBox alignment="CENTER">
-                <Label fx:id="timer1" text="15.0" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-                <Button text="Click" fx:id="b1"/>
-            </VBox>
-            <Region HBox.hgrow="ALWAYS"/>
-            <VBox alignment="CENTER">
-                <Label fx:id="timer2" text="15.0" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-                <Button text="Click" fx:id="b2"/>
             </VBox>
         </HBox>
     </VBox>

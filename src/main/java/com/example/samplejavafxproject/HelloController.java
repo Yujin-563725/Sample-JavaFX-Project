@@ -46,8 +46,8 @@ public class HelloController {
     private boolean turn = false;
     private boolean turnSet = false;
 
-    private static final double TURN_TIME = 15.0;
-    private static final double SPLIT_PENALTY = 0.95;
+    private static final double TURN_TIME = 30.0;
+    private static final double SPLIT_PENALTY = 0.9;
     private double time1 = TURN_TIME;
     private double time2 = TURN_TIME;
     private boolean gameOver = false;
@@ -106,8 +106,8 @@ public class HelloController {
                     }
                 }
             }
-            timer1.setText(String.format("%.1f", Math.max(0, time1)));
-            timer2.setText(String.format("%.1f", Math.max(0, time2)));
+            timer1.setText(String.format("Time: %03.1f", Math.max(0, time1)));
+            timer2.setText(String.format("Time: %03.1f", Math.max(0, time2)));
 
             p1.updateBorder();
             p2.updateBorder();
