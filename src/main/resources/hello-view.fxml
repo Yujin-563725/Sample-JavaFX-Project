@@ -32,9 +32,15 @@
             </VBox>
         </HBox>
         <HBox alignment="CENTER">
-            <Button text="Click" fx:id="b1"/>
+            <VBox alignment="CENTER">
+                <Label fx:id="timer1" text="15.0" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <Button text="Click" fx:id="b1"/>
+            </VBox>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Click" fx:id="b2"/>
+            <VBox alignment="CENTER">
+                <Label fx:id="timer2" text="15.0" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <Button text="Click" fx:id="b2"/>
+            </VBox>
         </HBox>
     </VBox>
     <Pane fx:id="bPane" mouseTransparent="true"/>

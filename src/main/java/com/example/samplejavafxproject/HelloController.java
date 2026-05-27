@@ -35,6 +35,9 @@ public class HelloController {
     @FXML private Button b1;
     @FXML private Button b2;
 
+    @FXML private Label timer1;
+    @FXML private Label timer2;
+
     private Player p1;
     private Player p2;
     private Player p3;
@@ -42,6 +45,12 @@ public class HelloController {
 
     private boolean turn = false;
     private boolean turnSet = false;
+
+    private static final double TURN_TIME = 15.0;
+    private static final double SPLIT_PENALTY = 0.95;
+    private double time1 = TURN_TIME;
+    private double time2 = TURN_TIME;
+    private boolean gameOver = false;
 
     @FXML public void initialize() {
         Image img = new Image(getClass().getResourceAsStream("/chopstick.png"));
@@ -54,15 +63,19 @@ public class HelloController {
         b1.setText("Split");
         b2.setText("Split");
         b1.setOnAction(e -> {
+            if (gameOver) return;
             if (turnSet && turn) return;
             if (attemptSplit(p1, p2)) {
+                time1 = TURN_TIME * SPLIT_PENALTY;
                 turnSet = true;
                 turn = true;
             }
         });
         b2.setOnAction(e -> {
+            if (gameOver) return;
             if (turnSet && !turn) return;
             if (attemptSplit(p3, p4)) {
+                time2 = TURN_TIME * SPLIT_PENALTY;
                 turnSet = true;
                 turn = false;
             }
@@ -71,30 +84,30 @@ public class HelloController {
         Timeline timeline = new Timeline();
 
         KeyFrame keyframe = new KeyFrame(Duration.millis(1000.0/60.0), event -> {
-            if ((p1.getScore() == 0 && p2.getScore() == 0) || (p3.getScore() == 0 && p4.getScore() == 0)) {
-                if (blocker == null) {
-                    blocker = new StackPane();
-                    blocker.prefWidthProperty().bind(bPane.widthProperty());
-                    blocker.prefHeightProperty().bind(bPane.heightProperty());
-                    blocker.setStyle("-fx-background-color: white;");
+            if (p3.getScore() == 0 && p4.getScore() == 0) {
+                endGame(true);
+            } else if (p1.getScore() == 0 && p2.getScore() == 0) {
+                endGame(false);
+            }
 
-                    Text endText = new Text("Game Over!");
-                    if (p3.getScore() == 0 && p4.getScore() == 0) {
-                        endText.setText(endText.getText() + "\n Player 1 Wins!");
-                    } else {
-                        endText.setText(endText.getText() + "\n Player 2 Wins!");
+            if (!gameOver && turnSet) {
+                double dt = 1.0 / 60.0;
+                if (!turn) {
+                    time1 -= dt;
+                    if (time1 <= 0) {
+                        time1 = 0;
+                        endGame(false);
                     }
-                    endText.setTextAlignment(TextAlignment.CENTER);
-                    blocker.getChildren().add(endText);
-                    bPane.getChildren().add(blocker);
-                    endText.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
-                    endText.applyCss();
-                    endText.setViewOrder(-1);
-
-                    bPane.setMouseTransparent(false);
-                    bPane.setViewOrder(-1);
+                } else {
+                    time2 -= dt;
+                    if (time2 <= 0) {
+                        time2 = 0;
+                        endGame(true);
+                    }
                 }
             }
+            timer1.setText(String.format("%.1f", Math.max(0, time1)));
+            timer2.setText(String.format("%.1f", Math.max(0, time2)));
 
             p1.updateBorder();
             p2.updateBorder();
@@ -189,6 +202,11 @@ public class HelloController {
                 p2.clearSel();
                 p3.clearSel();
                 p4.clearSel();
+                if (!turn) {
+                    time1 = TURN_TIME;
+                } else {
+                    time2 = TURN_TIME;
+                }
                 turn = !turn;
             }
         });
@@ -242,5 +260,25 @@ public class HelloController {
         p2.clearSel();
         p3.clearSel();
         p4.clearSel();
+    }
+
+    private void endGame(boolean p1Wins) {
+        if (blocker != null) return;
+        blocker = new StackPane();
+        blocker.prefWidthProperty().bind(bPane.widthProperty());
+        blocker.prefHeightProperty().bind(bPane.heightProperty());
+        blocker.setStyle("-fx-background-color: white;");
+
+        Text endText = new Text("Game Over!\n " + (p1Wins ? "Player 1" : "Player 2") + " Wins!");
+        endText.setTextAlignment(TextAlignment.CENTER);
+        blocker.getChildren().add(endText);
+        bPane.getChildren().add(blocker);
+        endText.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
+        endText.applyCss();
+        endText.setViewOrder(-1);
+
+        bPane.setMouseTransparent(false);
+        bPane.setViewOrder(-1);
+        gameOver = true;
     }
 }
