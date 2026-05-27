@@ -46,7 +46,7 @@ public class HelloController {
         Timeline timeline = new Timeline();
 
         KeyFrame keyframe = new KeyFrame(Duration.millis(1000.0/60.0), event -> {
-            if (p1.getScore() == 5 || p2.getScore() == 5 || p3.getScore() == 5 || p4.getScore() == 5) {
+            if ((p1.getScore() == 5 && p2.getScore() == 5) || (p3.getScore() == 5 && p4.getScore() == 5)) {
                 if (blocker == null) {
                     blocker = new Rectangle();
                     blocker.widthProperty().bind(bPane.widthProperty());
@@ -71,6 +71,18 @@ public class HelloController {
                 p4.disable();
             } else if (p4.getSel()) {
                 p3.disable();
+            }
+            if (p1.getScore() == 5) {
+                p1.disable();
+            }
+            if (p2.getScore() == 5) {
+                p2.disable();
+            }
+            if (p3.getScore() == 5) {
+                p3.disable();
+            }
+            if (p4.getScore() == 5) {
+                p4.disable();
             }
 
             if ((p1.getSel() || p2.getSel()) && (p3.getSel() || p4.getSel())) {

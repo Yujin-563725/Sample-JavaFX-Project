@@ -77,9 +77,7 @@ public class Player {
         return chopsticks.size();
     }
 
-    public void disable() {
-        disable = true;
-    }
+    public void disable() { disable = true; }
     public void enable() {
         disable = false;
     }
