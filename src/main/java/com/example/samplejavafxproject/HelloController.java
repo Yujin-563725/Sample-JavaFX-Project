@@ -8,11 +8,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 import java.io.InputStream;
@@ -26,7 +29,7 @@ public class HelloController {
     @FXML private Pane pane4;
 
     @FXML private Pane bPane;
-    private Rectangle blocker;
+    private StackPane blocker;
 
     private Player p1;
     private Player p2;
@@ -48,12 +51,22 @@ public class HelloController {
         KeyFrame keyframe = new KeyFrame(Duration.millis(1000.0/60.0), event -> {
             if ((p1.getScore() == 5 && p2.getScore() == 5) || (p3.getScore() == 5 && p4.getScore() == 5)) {
                 if (blocker == null) {
-                    blocker = new Rectangle();
-                    blocker.widthProperty().bind(bPane.widthProperty());
-                    blocker.heightProperty().bind(bPane.heightProperty());
-                    blocker.setFill(Color.TRANSPARENT);
+                    blocker = new StackPane();
+                    blocker.prefWidthProperty().bind(bPane.widthProperty());
+                    blocker.prefHeightProperty().bind(bPane.heightProperty());
+                    blocker.setStyle("-fx-background-color: white;");
+
+                    Text endText = new Text("Game Over!");
+                    blocker.getChildren().add(endText);
                     bPane.getChildren().add(blocker);
+                    endText.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
+                    endText.applyCss();
+                    double textW = endText.getBoundsInLocal().getWidth();
+                    double textH = endText.getBoundsInLocal().getHeight();
+                    endText.setViewOrder(-1);
+
                     bPane.setMouseTransparent(false);
+                    bPane.setViewOrder(-1);
                 }
             }
 
