@@ -79,6 +79,12 @@ public class HelloController {
                     blocker.setStyle("-fx-background-color: white;");
 
                     Text endText = new Text("Game Over!");
+                    if (p3.getScore() == 0 && p4.getScore() == 0) {
+                        endText.setText(endText.getText() + "\n Player 1 Wins!");
+                    } else {
+                        endText.setText(endText.getText() + "\n Player 2 Wins!");
+                    }
+                    endText.setTextAlignment(TextAlignment.CENTER);
                     blocker.getChildren().add(endText);
                     bPane.getChildren().add(blocker);
                     endText.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
