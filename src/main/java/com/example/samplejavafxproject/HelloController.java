@@ -35,9 +35,6 @@ public class HelloController {
     @FXML private Button b1;
     @FXML private Button b2;
 
-    @FXML private Button b1;
-    @FXML private Button b2;
-
     private Player p1;
     private Player p2;
     private Player p3;
@@ -86,8 +83,6 @@ public class HelloController {
                     bPane.getChildren().add(blocker);
                     endText.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
                     endText.applyCss();
-                    double textW = endText.getBoundsInLocal().getWidth();
-                    double textH = endText.getBoundsInLocal().getHeight();
                     endText.setViewOrder(-1);
 
                     bPane.setMouseTransparent(false);
