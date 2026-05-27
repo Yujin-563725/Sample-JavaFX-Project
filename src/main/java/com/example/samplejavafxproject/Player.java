@@ -41,7 +41,8 @@ public class Player {
 
     public void add(int n) {
         if (n + getScore() >= 5) {
-            n = 5 - getScore();
+            clear();
+            return;
         }
         for (int i = 0; i < n; i++) {
             ImageView stick = new ImageView(img);
@@ -60,6 +61,16 @@ public class Player {
             pane.getChildren().add(stick);
         }
         updateSticks();
+    }
+
+    public void clear() {
+        pane.getChildren().removeAll(chopsticks);
+        chopsticks.clear();
+    }
+
+    public void set(int n) {
+        clear();
+        add(n);
     }
 
     public void clearSel() {
