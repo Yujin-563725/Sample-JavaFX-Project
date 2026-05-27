@@ -35,6 +35,9 @@ public class HelloController {
     @FXML private Button b1;
     @FXML private Button b2;
 
+    @FXML private Button b1;
+    @FXML private Button b2;
+
     private Player p1;
     private Player p2;
     private Player p3;
